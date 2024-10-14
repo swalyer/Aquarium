@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fish.aquarium.repository.UserRepository;
+import com.fish.aquarium.service.JwtUtil;
 
 @RestController
 @RequestMapping("/api")
@@ -19,7 +20,7 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private com.fish.aquarium.service.JwtUtil JwtUtil;
+    private JwtUtil JwtUtil;
 
     
 }
