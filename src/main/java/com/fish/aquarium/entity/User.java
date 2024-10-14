@@ -1,8 +1,11 @@
 package com.fish.aquarium.entity;
 
+
 import java.util.Collection;
+import java.util.Collections;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
@@ -49,53 +52,43 @@ public class User implements UserDetails{
     private Long id;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
+    public Collection<? extends GrantedAuthority> getAuthorities(){
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
     }
-
-    @Override
-    public String getPassword() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPassword'");
-    }
-
-    @Override
-    public String getUsername() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
+    public Long getId(){
+        return id;
     }
 
     public String getPersonalNumber(){
         return personalNumber;
     }
-    public void setPersonalNumber(){
+    public void setPersonalNumber(String personalNumber){
         this.personalNumber =personalNumber;
     }
     public String getFirtName(){
         return firstName;
     }
-    public void setFirstName(){
+    public void setFirstName(String firstName){
         this.firstName = firstName;
     }
     
     public String getLastName(){
         return lastName;
     }
-    public void setLastName(){
+    public void setLastName(String lastName){
         this.lastName = lastName;
     }
     public String getEmail(){
         return email;
     }
-    public void setEmail(){
+    public void setEmail(String email){
         this.email = email;
     }
     public String getRole(){
         return role;
     }
-    public void setRole(){
-        this.email = email;
+    public void setRole(String role){
+        this.role = role;
     }
     public String getPasswordHash() {
         return passwordHash;
@@ -104,6 +97,19 @@ public class User implements UserDetails{
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
+
+    @Override
+    public String getPassword() {
+        return passwordHash;
+
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+       
+    }
+    
 
 
 

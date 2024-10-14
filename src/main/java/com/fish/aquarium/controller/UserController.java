@@ -1,5 +1,6 @@
 package com.fish.aquarium.controller;
 
+import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,31 @@ private PasswordEncoder passwordEncoder;
 @PostMapping("/register")
 public ResponseEntity<String> registerUser(@RequestBody User user){
     try{
-        if(user.getPersonalNumber() ==null || user.getPersonalNumber()isEmpty()){
+        // gen unique personal number
+        if(user.getPersonalNumber() ==null || user.getPersonalNumber().isEmpty()){
             Random random = new Random();
-            user.setPersonalNumber(String.format("%012d", random.nextInt(1_000_000_000)));
+            user.setPersonalNumber(String.format("%010d", random.nextInt(1_000_000_000)));
+
+        }// email unique
+        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+        if(existingUser.isPresent()){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("User with this email is exists");
+        }
+        if(user.getPasswordHash() == null || user.getPasswordHash().isEmpty()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password can't be null");
 
         }
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+
+        user.setRole("USER");
+        userRepository.save(user);
+        return ResponseEntity.ok("User is succesfuly registeged");
+
+
+
+
     }catch(Exception e){
-        e.printStackTrace();
+        e.printStackTrace();//create log
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration Error");
         
 
