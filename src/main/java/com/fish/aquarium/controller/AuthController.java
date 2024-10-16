@@ -31,7 +31,7 @@ import jakarta.validation.constraints.Size;
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
-     @Autowired
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -46,7 +46,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
-           
+        
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                     loginRequest.getEmail(),
@@ -76,7 +76,7 @@ public class AuthController {
         }
     }
 
-   
+
     public static class LoginRequest {
         @NotBlank(message = "Email не должен быть пустым")
         @Email(message = "Некорректный формат email")
@@ -131,5 +131,4 @@ public class AuthController {
             this.user = user;
         }
     }
-    
 }
