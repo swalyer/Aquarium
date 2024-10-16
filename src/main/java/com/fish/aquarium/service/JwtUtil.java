@@ -58,13 +58,13 @@ public Boolean validateToken(String token, UserDetails userDetails) {
 return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 }
 
-// Генерация токена для пользователя
+
 public String generateToken(UserDetails userDetails) {
     Map<String, Object> claims = new HashMap<>();
 return createToken(claims, userDetails.getUsername());
 }
 
-// Создание токена
+
 private String createToken(Map<String, Object> claims, String subject) {
     Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
@@ -72,7 +72,7 @@ private String createToken(Map<String, Object> claims, String subject) {
             .setClaims(claims) 
     .setSubject(subject) 
     .setIssuedAt(new Date(System.currentTimeMillis())) 
-    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) //10 hours
+    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 1)) //1 hour
     .signWith(key, SignatureAlgorithm.HS256) 
     .compact(); 
 }
