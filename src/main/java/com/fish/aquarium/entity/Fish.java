@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Fish {
@@ -28,6 +30,10 @@ public Fish(String species, String color, double size, String habitat) {
     this.color = color;
     this.size = size;
     this.habitat = habitat;}
+    
+    @ManyToOne
+    @JoinColumn(name = "aquarium_id")
+    private Aquarium aquarium;
 
     public Long getID(){
         return id;
