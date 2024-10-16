@@ -1,7 +1,105 @@
-
-/* src/App.css */
-.App {
-    text-align: center;
+body {
     font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .App {
+    text-align: center;
+  }
+  
+  .app-header {
+    background-color: #0077b6;
+    padding: 10px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .header-buttons {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .header-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .header-link:hover {
+    text-decoration: underline;
+  }
+  
+  .login-container {
+    margin: 50px auto;
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #ffffff;
+  }
+  
+  .login-container h2 {
+    margin-bottom: 20px;
+  }
+  
+  .login-container input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .login-container button {
+    padding: 10px;
+    width: 100%;
+    background-color: #0077b6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .login-container button:hover {
+    background-color: #005f8a;
+  }
+  
+  .aquarium {
+    padding: 20px;
+  }
+  
+  .aquarium-container {
+    margin-bottom: 20px;
+    background-color: #e0f7fa;
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  .fish-list, .plant-list, .parameter-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .fish-item, .plant-item, .parameter-item {
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 200px;
+  }
+  
+  .profile, .shop {
+    padding: 20px;
+  }
+  
+  .profile h2, .shop h2 {
+    margin-bottom: 20px;
   }
   
