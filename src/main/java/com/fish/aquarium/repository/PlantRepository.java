@@ -1,5 +1,8 @@
 package com.fish.aquarium.repository;
 
-public class PlantRepository {
-    
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.fish.aquarium.entity.Plant;
+
+public interface PlantRepository extends JpaRepository<Plant, Long> {
 }

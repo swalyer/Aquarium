@@ -3,7 +3,12 @@ package com.fish.aquarium.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fish.aquarium.entity.Aquarium;
+import com.fish.aquarium.repository.AquariumRepository;
+
 import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class AquariumService {
@@ -15,8 +20,8 @@ public class AquariumService {
         return aquariumRepository.save(aquarium);
     }
 
-    public Aquarium getAquariumById(Long id) {
-        return aquariumRepository.findById(id).orElse(null);
+    public Optional<Aquarium> getAquariumById(Long id) {
+        return aquariumRepository.findById(id);
     }
 
     public List<Aquarium> getAquariumsByUserId(Long userId) {
