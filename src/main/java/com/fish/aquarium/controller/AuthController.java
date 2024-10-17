@@ -1,5 +1,6 @@
 package com.fish.aquarium.controller;
 
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import jakarta.validation.constraints.Size;
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -46,7 +48,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
-        
+           
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                     loginRequest.getEmail(),
@@ -58,35 +60,35 @@ public class AuthController {
             
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-            
+           
             String token = jwtUtil.generateToken(userDetails);
 
-            
+           
             Optional<User> userOptional = userRepository.findByEmail(loginRequest.getEmail());
             if (userOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Неверный email или пароль");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("incorrect email or password");
             }
 
             User user = userOptional.get();
-            user.setPasswordHash(null); 
+            user.setPasswordHash(null);
 
             return ResponseEntity.ok(new LoginResponse(token, user));
         } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Неверный email или пароль");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("incorrect email or password");
         }
     }
 
-
+   
     public static class LoginRequest {
-        @NotBlank(message = "Email не должен быть пустым")
-        @Email(message = "Некорректный формат email")
+        @NotBlank(message = "Email must be filled")
+        @Email(message = "incorrect fortam of email")
         private String email;
 
-        @NotBlank(message = "Пароль не должен быть пустым")
-        @Size(min = 6, message = "Пароль должен содержать не менее 6 символов")
+        @NotBlank(message = "Email must be filled")
+        @Size(min = 6, message = "password must be at least 6 symbols")
         private String password;
 
-        // getset
+        // get/set
         public String getEmail() {
             return email;
         }
@@ -114,7 +116,7 @@ public class AuthController {
             this.user = user;
         }
 
-        // getset
+        // get/set
         public String getToken() {
             return token;
         }

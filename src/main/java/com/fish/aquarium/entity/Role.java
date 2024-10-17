@@ -1,7 +1,13 @@
 package com.fish.aquarium.entity;
 
-import jakarta.persistence.*;
 import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Role {
@@ -9,12 +15,21 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(unique = true, nullable = false)
+    private String roleName;
 
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
-    // getters and setters
+    // Constructor to create Role with a role name
+    public Role(String roleName) {
+        this.roleName = roleName;
+    }
+
+    // Default constructor
+    public Role() {}
+
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -23,12 +38,12 @@ public class Role {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public List<User> getUsers() {

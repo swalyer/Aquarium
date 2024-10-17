@@ -1,23 +1,29 @@
 package com.fish.aquarium.service;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.fish.aquarium.dto.RegisterRequest;
 import com.fish.aquarium.entity.User;
 import com.fish.aquarium.repository.UserRepository;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public User register(User user) {
-        // Здесь можно добавить хеширование пароля и валидацию
-        return userRepository.save(user);
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+    public void registerUser(RegisterRequest registerRequest) {
+        User user = new User();
+        user.setEmail(registerRequest.getEmail());
+        String hashedPassword = passwordEncoder.encode(registerRequest.getPassword());
+        user.setPasswordHash(hashedPassword);
+        userRepository.save(user);
     }
 }
+
+

@@ -4,15 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 
 function LoginPage({ setIsAuthenticated }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('/api/auth/login', { username, password });
+      const response = await axios.post('http://localhost:8080/api/login', { email, password });
       localStorage.setItem('token', response.data.token);
       setIsAuthenticated(true);
       navigate('/aquarium');
@@ -23,7 +22,7 @@ function LoginPage({ setIsAuthenticated }) {
 
   const handleRegister = async () => {
     try {
-      await axios.post('/api/auth/register', { username, password, email });
+      await axios.post('http://localhost:8080/api/register', { email, password });
       handleLogin();
     } catch (error) {
       console.error('Ошибка регистрации:', error);
@@ -39,26 +38,24 @@ function LoginPage({ setIsAuthenticated }) {
     }
   };
 
+  const isFormValid = () => {
+    if (isRegistering) {
+      return email && password.length >= 6;
+    }
+    return email && password.length >= 6;
+  };
+
   return (
     <div className="login-container">
       <h2>{isRegistering ? 'Регистрация' : 'Авторизация'}</h2>
       <form onSubmit={handleSubmit}>
         <input
-          type="text"
-          placeholder="Имя пользователя"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
-        {isRegistering && (
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        )}
         <input
           type="password"
           placeholder="Пароль"
@@ -66,7 +63,7 @@ function LoginPage({ setIsAuthenticated }) {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">{isRegistering ? 'Зарегистрироваться' : 'Войти'}</button>
+        <button type="submit" disabled={!isFormValid()}>{isRegistering ? 'Зарегистрироваться' : 'Войти'}</button>
       </form>
       <button onClick={() => setIsRegistering(!isRegistering)}>
         {isRegistering ? 'Уже есть аккаунт? Войти' : 'Нет аккаунта? Зарегистрироваться'}
