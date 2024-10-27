@@ -39,35 +39,41 @@ function LoginPage({ setIsAuthenticated }) {
   };
 
   const isFormValid = () => {
-    if (isRegistering) {
-      return email && password.length >= 6;
-    }
     return email && password.length >= 6;
   };
 
   return (
     <div className="login-container">
-      <h2>{isRegistering ? 'Регистрация' : 'Авторизация'}</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Пароль"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" disabled={!isFormValid()}>{isRegistering ? 'Зарегистрироваться' : 'Войти'}</button>
-      </form>
-      <button onClick={() => setIsRegistering(!isRegistering)}>
-        {isRegistering ? 'Уже есть аккаунт? Войти' : 'Нет аккаунта? Зарегистрироваться'}
-      </button>
+      <div className="aquarium">
+        <div className="fish fish1"></div>
+        <div className="fish fish2"></div>
+        <div className="fish fish3"></div>
+      </div>
+      <div className="login-form">
+        <h2>{isRegistering ? 'Регистрация' : 'Авторизация'}</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Пароль"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit" disabled={!isFormValid()}>
+            {isRegistering ? 'Зарегистрироваться' : 'Войти'}
+          </button>
+        </form>
+        <button className="toggle-button" onClick={() => setIsRegistering(!isRegistering)}>
+          {isRegistering ? 'Уже есть аккаунт? Войти' : 'Нет аккаунта? Зарегистрироваться'}
+        </button>
+      </div>
     </div>
   );
 }
