@@ -1,27 +1,35 @@
 package com.fish.aquarium.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "plants")
 public class Plant {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private String type;
+    private String imageUrl;
+    private String position;
 
-    @ManyToOne
-    @JoinColumn(name = "aquarium_id", nullable = false)
-    private Aquarium aquarium;
+    // Конструкторы, геттеры и сеттеры
 
-    // getters and setters
-    public Long getId() {
-        return id;
+    public Plant() {}
+
+    public Plant(String name, String imageUrl, String position) {
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.position = position;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -32,19 +40,19 @@ public class Plant {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+    public String getPosition() {
+        return position;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Aquarium getAquarium() {
-        return aquarium;
-    }
-
-    public void setAquarium(Aquarium aquarium) {
-        this.aquarium = aquarium;
+    public void setPosition(String position) {
+        this.position = position;
     }
 }

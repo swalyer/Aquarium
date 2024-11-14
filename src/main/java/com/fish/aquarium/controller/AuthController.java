@@ -1,6 +1,5 @@
 package com.fish.aquarium.controller;
 
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,9 +35,6 @@ public class AuthController {
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private JwtUtil jwtUtil;
 
     @Autowired
@@ -48,7 +43,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
-           
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                     loginRequest.getEmail(),
@@ -57,38 +51,35 @@ public class AuthController {
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-           
             String token = jwtUtil.generateToken(userDetails);
 
-           
             Optional<User> userOptional = userRepository.findByEmail(loginRequest.getEmail());
             if (userOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("incorrect email or password");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect email or password");
             }
 
             User user = userOptional.get();
-            user.setPasswordHash(null);
+            user.setPasswordHash(null); // Не возвращаем хэш пароля
 
             return ResponseEntity.ok(new LoginResponse(token, user));
         } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("incorrect email or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect email or password");
         }
     }
 
-   
+    // Вложенный класс LoginRequest с исправленными сообщениями валидации
     public static class LoginRequest {
         @NotBlank(message = "Email must be filled")
-        @Email(message = "incorrect fortam of email")
+        @Email(message = "Incorrect format of email")
         private String email;
 
-        @NotBlank(message = "Email must be filled")
-        @Size(min = 6, message = "password must be at least 6 symbols")
+        @NotBlank(message = "Password must be filled")
+        @Size(min = 6, message = "Password must be at least 6 characters")
         private String password;
 
-        // get/set
+        // Getters and Setters
         public String getEmail() {
             return email;
         }
@@ -106,7 +97,7 @@ public class AuthController {
         }
     }
 
-    // responce
+    // Вложенный класс LoginResponse
     public static class LoginResponse {
         private String token;
         private User user;
@@ -116,7 +107,7 @@ public class AuthController {
             this.user = user;
         }
 
-        // get/set
+        // Getters and Setters
         public String getToken() {
             return token;
         }

@@ -1,26 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import AquariumPage from './AquariumPage';
-import LoginPage from './LoginPage';
+// src/App.js
+
+import React from 'react';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import AquariumPage from './components/AquariumPage';
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsAuthenticated(true);
-    }
-  }, []);
-
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={isAuthenticated ? <Navigate to="/aquarium" /> : <LoginPage setIsAuthenticated={setIsAuthenticated} />} />
-        <Route path="/aquarium" element={isAuthenticated ? <AquariumPage /> : <Navigate to="/" />} />
-      </Routes>
-    </Router>
-  );
+    return (
+        <Router>
+            <Routes>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/" element={<AquariumPage />} />
+                {/* Добавьте другие маршруты  */}
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
+

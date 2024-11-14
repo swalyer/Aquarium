@@ -1,43 +1,24 @@
-// src/main/java/com/fish/aquarium/entity/Fish.java
+package com.fish.aquarium.dto;
 
-package com.fish.aquarium.entity;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "fishes")
-public class Fish {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class FishDTO {
     private Long id;
-
     private String name;
     private String species;
     private String imageUrl;
     private String position;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "aquarium_id")
-    private Aquarium aquarium;
+    private Long aquariumId;
 
     // Конструкторы
 
-    public Fish() {}
+    public FishDTO() {}
 
-    public Fish(String name, String species, String imageUrl, String position, Aquarium aquarium) {
+    public FishDTO(Long id, String name, String species, String imageUrl, String position, Long aquariumId) {
+        this.id = id;
         this.name = name;
         this.species = species;
         this.imageUrl = imageUrl;
         this.position = position;
-        this.aquarium = aquarium;
+        this.aquariumId = aquariumId;
     }
 
     // Геттеры и сеттеры
@@ -82,11 +63,11 @@ public class Fish {
         this.position = position;
     }
 
-    public Aquarium getAquarium() {
-        return aquarium;
+    public Long getAquariumId() {
+        return aquariumId;
     }
 
-    public void setAquarium(Aquarium aquarium) { // Добавлен сеттер
-        this.aquarium = aquarium;
+    public void setAquariumId(Long aquariumId) { // Добавлен сеттер
+        this.aquariumId = aquariumId;
     }
 }
